@@ -1,12 +1,33 @@
-_Crypto Price Pipeline
+# crypto_price_pipeline
 
-A simple Python script that fetches the current Bitcoin and Ethereum prices from the CoinGecko API and stores them in a SQLite database. This project demonstrates basic API usage, JSON handling, and SQL data storage.
+A small data pipeline that fetches current cryptocurrency prices from a public API and stores them in a SQLite database for later analysis.
 
-_How It Works
-1. Fetch crypto prices from the CoinGecko API  
-2. Clean the JSON response  
-3. Save the data to `crypto_prices.db` with a timestamp  
+## Goal
 
-_Run the Script
-```bash
-python main.py
+Fetch prices for selected cryptocurrencies (e.g., Bitcoin, Ethereum) in a given fiat currency (e.g., USD) and persist the results in a SQL table with timestamps.
+
+**High-level flow:**
+
+API → Python (JSON) → transform → insert into SQL table
+
+## Tech Stack
+
+- **Language:** Python
+- **Database:** SQLite (file-based, no external setup)
+- **Libraries:**
+  - `requests` – HTTP client for calling the API
+  - `sqlite3` – built-in Python library for SQLite
+  - `datetime` – built-in, for timestamps
+
+## Data Model
+
+Table: `crypto_prices`
+
+```sql
+CREATE TABLE IF NOT EXISTS crypto_prices (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    symbol TEXT NOT NULL,
+    currency TEXT NOT NULL,
+    price REAL NOT NULL,
+    fetched_at TEXT NOT NULL
+);
